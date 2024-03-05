@@ -33,3 +33,5 @@ class NaverBlogCrawler(CrawlingInterface):
         pattern2 = """[\n\n\n\n\n// flash 오류를 우회하기 위한 함수 추가\nfunction _flash_removeCallback() {}"""
 
         return content.replace(pattern2, '').replace('\n', ' ').replace('\u200b', '')
+
+    def appendToEs(self, url: str, desc : str) -> bool:

@@ -5,18 +5,22 @@ class MethodNotImplementError(Exception) :
 
 class CrawlingInterface :
 
+
     """
     * @param       : (self), 타겟 url, tag
     * @return type : str
     * @description : 해당 함수를 통해 본문의 내용을 가져온다. 이떄 태그
     *
     """
-    def getText(self, url : str, tag : str) -> str:
+    def crawl(self, url : str, tag : str) -> bool:
         # 가져오고자 하는 내용을 받아온다.
         mainBody = self.select(url, tag)
 
         # 전처리
-        result = self.preprocess(mainBody)
+        preprocessedText = self.preprocess(mainBody)
+
+        # Es에 추가
+        result = self.appendToEs(url, preprocessedText)
 
         return result
 
