@@ -32,7 +32,10 @@ else:
 
 #크롤링
 for item in search_result["items"]:
-    print(naverBlogCrawler.crawl(item["link"], "div.se-main-container"))
+    #print()
+    #print(naverBlogCrawler.crawl(item["link"], "blog","div.se-main-container", naverBlogCrawler.preprocess(item["title"])))
+    print(naverBlogCrawler.crawl("https:\/\/blog.naver.com\/haedud128\/223150541613", "blog", "div.se-main-container",
+                                 "span.se-fs-fs26 se-ff-nanumsquare"))
 
 
 

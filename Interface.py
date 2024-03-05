@@ -1,17 +1,22 @@
+from elasticsearch import Elasticsearch
+
 class MethodNotImplementError(Exception) :
     def __init__(self, methodName=""):
         self.errorMsg = f"{methodName} Method is not implements."
         super().__init__(self.errorMsg)
 
 class CrawlingInterface :
+    def __init__(self):
+
+        self.es = es = Elasticsearch(hosts="https://localhost:9200", basic_auth=("elastic", "cAh+sWnbfRlXz1KimBpp"), verify_certs=False)
 
     """
     * @param       : (self), 타겟 url, 본문tag, 제목tag
-    * @return type : bool
+    * @return type : None
     * @description : 해당 함수를 통해 본문의 내용을 가져온다. 이떄 태그
     *
     """
-    def crawl(self, url : str, mainTag : str, titleTag : str) -> bool:
+    def crawl(self, url : str, category: str, mainTag : str, titleTag : str):
         # 가져오고자 하는 내용을 받아온다.
         mainBody,title  = self.select(url, mainTag, titleTag)
 
@@ -20,9 +25,9 @@ class CrawlingInterface :
         preprocessedTitle = self.preprocess(title)
 
         # Es에 추가
-        result = self.appendToEs(url, preprocessedText, preprocessedTitle)
+        result = self.appendToEs(url, category, preprocessedText, preprocessedTitle)
+        print(preprocessedText, preprocessedTitle)
 
-        return result
 
     """
     * @param       : (self), 타겟 url, 본문tag, 제목tag
@@ -30,7 +35,7 @@ class CrawlingInterface :
     * @description : 타겟 url에서 본문의 위치를 찾아 해당하는 위치의 내용을 전처리하지 않은 내용을 반환한다.
     *                해당 메서드를 구현해야한다. 구현하지 않은 상태로 호출시, MethodNotImplementError 예외를 raise함.
     """
-    def select(self, url : str, mainTag : str, titleTag):
+    def select(self, url : str, mainTag : str, titleTag : str):
         raise MethodNotImplementError("select")
     
     """
@@ -46,5 +51,16 @@ class CrawlingInterface :
     * @return       : append 성공 여부
     * @description  : Es에 추가
     """
-    def appendToEs(self, url: str, mainBody : str, title : str) -> bool:
-        raise MethodNotImplementError("appendToEs")
+    def appendToEs(self, url: str, category: str, mainBody : str, title : str) -> bool:
+        doc = {
+            "url": url,
+            "category" : category,
+            "title": title,
+            "mainBody" : mainBody,
+            "preview" : mainBody[:min(len(mainBody), 50)]
+        }
+
+        self.es.index(index = "web_document",  id=1, body = doc)
+
+    def __del__(self):
+        self.es.close()

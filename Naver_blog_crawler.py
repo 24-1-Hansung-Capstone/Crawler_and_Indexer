@@ -8,10 +8,11 @@ import re
 
 class NaverBlogCrawler(CrawlingInterface):
     def __init__(self):
+        super().__init__()
         self.driver = webdriver.Chrome()
         self.url = None
 
-    def select(self, url : str, tag : str):
+    def select(self, url : str, mainTag : str, titleTag : str):
         self.url = url
         self.driver.get(url)
         time.sleep(5)
@@ -22,17 +23,24 @@ class NaverBlogCrawler(CrawlingInterface):
         source = self.driver.page_source
         html = BeautifulSoup(source, "html.parser")
 
-        content = html.select(tag)
-        content = ''.join(str(content))
+        mainContent = html.select(mainTag)
+        mainContent = ''.join(str(mainContent))
 
-        return content
+        titleContent = html.select(titleTag)
+        titleContent = ''.join(str(titleContent))
+
+        return mainContent, titleContent
 
 
     def preprocess(self, desc : str) -> str:
         content = re.sub(pattern=r'<[^>]*>', repl=r'', string=desc)
         pattern2 = """[\n\n\n\n\n// flash 오류를 우회하기 위한 함수 추가\nfunction _flash_removeCallback() {}"""
         txt = content.replace(pattern2, '').replace('\n', ' ').replace('\u200b', '')
-        print(type(txt))
+
         return txt
 
-    def appendToEs(self, url: str, desc : str) -> bool:
+    def __del__(self):
+        super().__del__();
+
+naverBlogCrawler = NaverBlogCrawler()
+print(naverBlogCrawler.crawl("https:\/\/blog.naver.com\/haedud128\/223150541613", "blog","div.se-main-container", "span.se-fs-fs26"))
