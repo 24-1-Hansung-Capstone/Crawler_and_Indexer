@@ -32,8 +32,7 @@ else:
 
 #크롤링
 for item in search_result["items"]:
-    desc = naverBlogCrawler.select(item["link"], "div.se-main-container")
-    print(naverBlogCrawler.preprocess(desc))
+    print(naverBlogCrawler.crawl(item["link"], "div.se-main-container"))
 
 
 
