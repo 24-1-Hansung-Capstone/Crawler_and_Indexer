@@ -3,16 +3,16 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 
-import urllib.request
-import json
 import time
 import re
 
 class NaverBlogCrawler(CrawlingInterface):
     def __init__(self):
         self.driver = webdriver.Chrome()
+        self.url = None
 
     def select(self, url : str, tag : str):
+        self.url = url
         self.driver.get(url)
         time.sleep(5)
 

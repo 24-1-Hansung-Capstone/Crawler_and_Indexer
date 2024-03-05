@@ -30,10 +30,17 @@ class CrawlingInterface :
         raise MethodNotImplementError("select")
     
     """
-    * @param       : (self), disc
+    * @param       : (self), desc
     * @return      : 전처리가 완료된 문자열
     * @description : 필요한 경우, 해당 메서드를 구현하여 전처리를 진행한다.
     """
     def preprocess(self, desc : str) -> str :
         return desc
-    
+
+    """
+    * @param        : (self), url, desc
+    * @return       : append 성공 여부
+    * @description  : Es에 추가(url도 필수적으로 append해야함)
+    """
+    def appendToEs(self, url: str, desc : str) -> bool:
+        raise MethodNotImplementError("appendToEs")
