@@ -6,7 +6,7 @@ class MethodNotImplementError(Exception) :
         super().__init__(self.errorMsg)
 
 class CrawlingInterface :
-    def __init__(self):
+    def __init__(self, host: str, authId : str, authPw : str):
         self.es = Elasticsearch(hosts="https://localhost:9200", basic_auth=("elastic", "cAh+sWnbfRlXz1KimBpp"), verify_certs=False)
 
     """

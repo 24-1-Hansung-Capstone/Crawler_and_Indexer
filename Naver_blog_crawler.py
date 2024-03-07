@@ -7,8 +7,8 @@ import time
 import re
 
 class NaverBlogCrawler(CrawlingInterface):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, host: str, authId : str, authPw : str):
+        super().__init__(host, authId, authPw)
         self.driver = webdriver.Chrome()
         self.url = None
 
