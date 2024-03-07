@@ -40,7 +40,4 @@ class NaverBlogCrawler(CrawlingInterface):
         return txt
 
     def __del__(self):
-        super().__del__();
-
-naverBlogCrawler = NaverBlogCrawler()
-print(naverBlogCrawler.crawl("https:\/\/blog.naver.com\/haedud128\/223150541613", "blog","div.se-main-container", "span.se-fs-fs26"))
+        super().__del__()

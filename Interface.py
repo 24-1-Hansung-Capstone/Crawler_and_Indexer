@@ -7,8 +7,7 @@ class MethodNotImplementError(Exception) :
 
 class CrawlingInterface :
     def __init__(self):
-
-        self.es = es = Elasticsearch(hosts="https://localhost:9200", basic_auth=("elastic", "cAh+sWnbfRlXz1KimBpp"), verify_certs=False)
+        self.es = Elasticsearch(hosts="https://localhost:9200", basic_auth=("elastic", "cAh+sWnbfRlXz1KimBpp"), verify_certs=False)
 
     """
     * @param       : (self), 타겟 url, 본문tag, 제목tag
@@ -16,7 +15,7 @@ class CrawlingInterface :
     * @description : 해당 함수를 통해 본문의 내용을 가져온다. 이떄 태그
     *
     """
-    def crawl(self, url : str, category: str, mainTag : str, titleTag : str):
+    def crawl(self, url : str, category: str, mainTag : str, titleTag : str, esIndex : str, esId : any):
         # 가져오고자 하는 내용을 받아온다.
         mainBody,title  = self.select(url, mainTag, titleTag)
 
@@ -25,8 +24,10 @@ class CrawlingInterface :
         preprocessedTitle = self.preprocess(title)
 
         # Es에 추가
-        result = self.appendToEs(url, category, preprocessedText, preprocessedTitle)
+        result = self.appendToEs(url, category, preprocessedText, preprocessedTitle, esIndex, esId)
         print(preprocessedText, preprocessedTitle)
+
+        return result
 
 
     """
@@ -51,7 +52,7 @@ class CrawlingInterface :
     * @return       : append 성공 여부
     * @description  : Es에 추가
     """
-    def appendToEs(self, url: str, category: str, mainBody : str, title : str) -> bool:
+    def appendToEs(self, url: str, category: str, mainBody : str, title : str, esIndex: str, esId: any) -> bool:
         doc = {
             "url": url,
             "category" : category,
@@ -60,7 +61,8 @@ class CrawlingInterface :
             "preview" : mainBody[:min(len(mainBody), 50)]
         }
 
-        self.es.index(index = "web_document",  id=1, body = doc)
+        self.es.index(index = esIndex,  id = esId, body = doc)
 
+        return self.es.exists(index=esIndex, id = esId)
     def __del__(self):
         self.es.close()
