@@ -7,7 +7,7 @@ class MethodNotImplementError(Exception) :
 
 class CrawlingInterface :
     def __init__(self, host: str, authId : str, authPw : str):
-        self.es = Elasticsearch(hosts="https://localhost:9200", basic_auth=("elastic", "cAh+sWnbfRlXz1KimBpp"), verify_certs=False)
+        self.es = Elasticsearch(hosts=host, basic_auth=(authId, authPw), verify_certs=False)
 
     """
     * @param       : (self), 타겟 url, 본문tag, 제목tag
