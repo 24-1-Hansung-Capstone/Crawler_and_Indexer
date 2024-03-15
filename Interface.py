@@ -25,7 +25,6 @@ class CrawlingInterface :
 
         # Es에 추가
         result = self.appendToEs(url, category, preprocessedText, preprocessedTitle, esIndex, esId)
-        print(preprocessedText, preprocessedTitle)
 
         return result
 

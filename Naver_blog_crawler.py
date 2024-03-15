@@ -2,6 +2,7 @@ from Interface import CrawlingInterface
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 import time
 import re
@@ -11,6 +12,7 @@ class NaverBlogCrawler(CrawlingInterface):
         super().__init__(host, authId, authPw)
         self.driver = webdriver.Chrome()
         self.url = None
+        self.title = None
 
     def select(self, url : str, mainTag : str, titleTag : str):
         self.url = url
@@ -20,16 +22,17 @@ class NaverBlogCrawler(CrawlingInterface):
         iframe = self.driver.find_element(By.ID, "mainFrame")
         self.driver.switch_to.frame(iframe)
 
-        source = self.driver.page_source
-        html = BeautifulSoup(source, "html.parser")
+        mainContent =  None
+        try:
+            mainContent = self.driver.find_element(By.CSS_SELECTOR, 'div.se-main-container').text
+        # NoSuchElement 오류시 예외처리(구버전 블로그에 적용)
+        except NoSuchElementException:
+            mainContent = self.driver.find_element(By.CSS_SELECTOR, 'div#content-area').text
 
-        mainContent = html.select(mainTag)
-        mainContent = ''.join(str(mainContent))
+        print(mainContent)
+        print(self.title)
 
-        titleContent = html.select(titleTag)
-        titleContent = ''.join(str(titleContent))
-
-        return mainContent, titleContent
+        return mainContent, self.title
 
 
     def preprocess(self, desc : str) -> str:
@@ -37,7 +40,12 @@ class NaverBlogCrawler(CrawlingInterface):
         pattern2 = """[\n\n\n\n\n// flash 오류를 우회하기 위한 함수 추가\nfunction _flash_removeCallback() {}"""
         txt = content.replace(pattern2, '').replace('\n', ' ').replace('\u200b', '')
 
+
+        print("crawled - preprocessed")
+        print(txt)
+
         return txt
 
     def __del__(self):
         super().__del__()
+
