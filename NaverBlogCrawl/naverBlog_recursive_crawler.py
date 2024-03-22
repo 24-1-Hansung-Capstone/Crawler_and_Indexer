@@ -1,12 +1,12 @@
 import urllib.request
 import json
 
-import Naver_blog_crawler
+from NaverBlogCrawler import Naver_blog_crawler
 
 #id 지정
 NAVER_CLIENT_ID = "Pwl2n4GWNec7VL_RqRGP"
 NAVER_CLIENT_SECRET = "HJq5tjv7HY"
-naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="https://localhost:9200", authId = "elastic", authPw="cAh+sWnbfRlXz1KimBpp")
+naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
 
 #검색어 지정
 encText = urllib.parse.quote("보문역")

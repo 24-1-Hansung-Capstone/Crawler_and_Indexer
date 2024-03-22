@@ -1,7 +1,5 @@
 # 크롤링시 필요한 라이브러리 불러오기
-import Naver_News_Crawler
-import time
-import requests
+from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
 
 #크롤러 생성
 naverNewsCrawler = Naver_News_Crawler.NaverNewsCrawler()
