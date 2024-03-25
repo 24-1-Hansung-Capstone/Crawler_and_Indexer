@@ -2,12 +2,12 @@ import urllib.request
 import urllib.parse
 import json
 
-import Naver_News_Crawler
+from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
 
 #id 지정
 NAVER_CLIENT_ID = "Pwl2n4GWNec7VL_RqRGP"
 NAVER_CLIENT_SECRET = "HJq5tjv7HY"
-naverNewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="https://localhost:9200", authId = "elastic", authPw="cAh+sWnbfRlXz1KimBpp")
+naverNewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
 
 #검색어 지정
 encText = urllib.parse.quote("성북구")

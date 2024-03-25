@@ -54,10 +54,8 @@ class CrawlingInterface :
     def appendToEs(self, url: str, category: str, mainBody : str, title : str, esIndex: str, esId: any) -> bool:
         doc = {
             "url": url,
-            "category" : category,
             "title": title,
             "mainBody" : mainBody,
-            "preview" : mainBody[:min(len(mainBody), 50)]
         }
 
         self.es.index(index = esIndex,  id = esId, body = doc)

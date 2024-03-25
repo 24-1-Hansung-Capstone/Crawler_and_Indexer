@@ -1,4 +1,4 @@
-from Interface import CrawlingInterface
+from CrawlerInterface import CrawlingInterface
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
