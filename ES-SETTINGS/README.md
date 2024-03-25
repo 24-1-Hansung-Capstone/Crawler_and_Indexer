@@ -3,7 +3,7 @@
 - curl 명령, settings.json과 같은 디렉터리에 있어야 함
 ```bash
 $ curl -XPUT "http://ES_IP:9200/인덱스명" -H "Content-Type: application/json" -d @settings.json
-$ curl -XPUT "http://ES_IP:9200/인덱스명/_mappings" -H "Content-Type: application/json" -d @mapping.json
+$ curl -XPUT "http://ES_IP:9200/인덱스명/_mappings" -H "Content-Type: application/json" -d @원하는매핑구조.json
 ```
 - postman
   - PUT 명령

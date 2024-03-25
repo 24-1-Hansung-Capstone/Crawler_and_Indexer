@@ -7,6 +7,11 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 import re
 
+import chromedriver_autoinstaller
+
+chromedriver_autoinstaller.install()  # 자동으로 chromedriver 설치
+print("install done")
+
 class NaverBlogCrawler(CrawlingInterface):
     def __init__(self, host: str, authId : str, authPw : str):
         super().__init__(host, authId, authPw)
