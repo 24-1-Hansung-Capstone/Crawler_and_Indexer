@@ -25,6 +25,9 @@ class CsvUploader:
         self.es.index(index = esIndex,  id = esId, body = doc)
         return self.es.exists(index=esIndex, id = esId)
 
+    def __del__(self):
+        self.es.close()
+
 
 
 

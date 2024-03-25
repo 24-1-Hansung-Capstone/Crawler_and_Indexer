@@ -35,6 +35,5 @@ i = 0
 for item in search_result["items"]:
     i+=1
     naverBlogCrawler.title = item["title"]
-    print(naverBlogCrawler.crawl(item["link"], "blog", "div.se-main-container",
-                                 "span.se-fs-fs26", esIndex="blog", esId=i))
+    print(naverBlogCrawler.crawl(item["link"], "blog", ["div.se-main-container", "span.se-fs-","span.se_publishDate"], ["mainBody", "title", "date"], item))
 

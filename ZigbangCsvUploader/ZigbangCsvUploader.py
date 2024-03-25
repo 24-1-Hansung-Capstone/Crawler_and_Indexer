@@ -18,5 +18,8 @@ class ZigbangCsvUploader(CsvUploaderInterface.CsvUploader):
 
         return item
 
+    def __del__(self):
+        super().__del__()
+
 zigbang = ZigbangCsvUploader(file_path = "../zigbang_csv/wydjp.csv", host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
 zigbang.uploadCsv(esIndex = "zigbang", esId = 1)
