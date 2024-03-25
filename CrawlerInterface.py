@@ -51,7 +51,7 @@ class CrawlingInterface :
     * @return       : append 성공 여부
     * @description  : Es에 추가
     """
-    def appendToEs(self, url: str, category: str, mainBody : str, title : str, esIndex: str, esId: any) -> bool:
+    def appendToEs(self, url: str, mainBody : str, title : str, esIndex: str, esId: any) -> bool:
         doc = {
             "url": url,
             "title": title,
