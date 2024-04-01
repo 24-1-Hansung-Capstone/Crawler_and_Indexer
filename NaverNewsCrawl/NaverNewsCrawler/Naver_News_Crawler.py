@@ -15,14 +15,11 @@ class NaverNewsCrawler(CrawlingInterface):
         self.driver.get(url)
         self.driver.implicitly_wait(3)
 
-        # source = self.driver.page_source
-        # html = BeautifulSoup(source, "html.parser")
-
         texts = []
 
         for tag in tags:
+            print(tag)
             text = self.driver.find_element(By.CSS_SELECTOR, tag).text
-
             texts.append(text)
 
         return texts
@@ -35,8 +32,7 @@ class NaverNewsCrawler(CrawlingInterface):
         return txt
 
     def postprocess(self, doc : dict, item) -> dict:
-        doc["title"] = self.preprocess(item["title"])
-        doc["date"] = datetime.strptime(item["postdate"], "%Y%m%d").strftime("%Y-%m-%d")
+        doc["date"] = datetime.strptime(doc["date"], "%Y%m%d").strftime("%Y-%m-%d")
         return doc
 
 
