@@ -22,10 +22,18 @@ class NaverNewsCrawler(CrawlingInterface):
         mainContent = html.select(mainTag)
         mainContent = ''.join(str(mainContent))
 
+<<<<<<< Updated upstream
         titleContent = html.select(titleTag)
         titleContent = ''.join(str(titleContent))
 
         return mainContent, titleContent
+=======
+        for tag in tags:
+            text = self.driver.find_element(By.CSS_SELECTOR, tag).text
+            texts.append(text)
+
+        return texts
+>>>>>>> Stashed changes
 
 
     def preprocess(self, desc : str) -> str:

@@ -9,7 +9,7 @@ NAVER_CLIENT_SECRET = "HJq5tjv7HY"
 naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
 
 #검색어 지정
-encText = urllib.parse.quote("보문역")
+encText = urllib.parse.quote("월계역")
 url = "https://openapi.naver.com/v1/search/blog?query=" + encText  # JSON 결과
 
 #request
