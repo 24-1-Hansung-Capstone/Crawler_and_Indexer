@@ -6,7 +6,7 @@ from NaverBlogCrawler import Naver_blog_crawler
 #id 지정
 NAVER_CLIENT_ID = "Pwl2n4GWNec7VL_RqRGP"
 NAVER_CLIENT_SECRET = "HJq5tjv7HY"
-naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
+naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp") #cAh+sWnbfRlXz1KimBp
 
 #검색어 지정
 encText = urllib.parse.quote("보문역")
@@ -35,5 +35,5 @@ i = 0
 for item in search_result["items"]:
     i+=1
     naverBlogCrawler.title = item["title"]
-    print(naverBlogCrawler.crawl(item["link"], "blog", ["div.se-main-container", "span.se-fs-","span.se_publishDate"], ["mainBody", "title", "date"], item))
+    print(naverBlogCrawler.crawl(item["link"], "blog2", ["div.se-main-container", "span.se-fs-","span.se_publishDate"], ["mainBody", "title", "date"], item))
 
