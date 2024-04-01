@@ -32,7 +32,7 @@ class CrawlingInterface :
         return doc
 
     def appendToEs(self, esIndex: str, url: any, doc: dict) -> bool:
-        self.es.index(index = esIndex,  id = url, body = doc)
+        self.es.index(index = esIndex, id = url, body = doc)
         return self.es.exists(index = esIndex, id = url)
     def __del__(self):
         self.es.close()
