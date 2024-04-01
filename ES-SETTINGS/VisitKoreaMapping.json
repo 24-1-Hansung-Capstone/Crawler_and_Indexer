@@ -1,0 +1,22 @@
+{
+  "properties" : {
+    "title": {
+      "type": "keyword"
+    },
+    "location": {
+      "type": "text",
+      "analyzer": "korean_analyzer"
+    },
+    "description": {
+      "type": "text",
+      "analyzer": "korean_analyzer"
+    },
+    "tags": {
+      "type": "text",
+      "analyzer": "korean_analyzer"
+    },
+    "photoURL": {
+      "type": "text"
+    }
+  }
+}
