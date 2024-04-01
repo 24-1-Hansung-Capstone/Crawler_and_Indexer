@@ -10,7 +10,6 @@ class ZigbangCsvUploader(CsvUploaderInterface.CsvUploader):
         item['aroundScore'] = float(item['aroundScore'])
         item['careScore'] = float(item['careScore'])
         item['residentScore'] = float(item['residentScore'])
-        item['aroundScore'] = float(item['aroundScore'])
         del item['age']
         del item['sex']
         del item['residenceType']

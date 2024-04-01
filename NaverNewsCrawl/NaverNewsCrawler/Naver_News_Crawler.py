@@ -1,48 +1,42 @@
 from CrawlerInterface import CrawlingInterface
 from bs4 import BeautifulSoup
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-import requests
 import re
-import time
 
 class NaverNewsCrawler(CrawlingInterface):
     def __init__(self, host: str, authId: str, authPw: str):
         super().__init__(host, authId, authPw)
         self.driver = webdriver.Chrome()
 
-    def select(self, url : str, mainTag : str, titleTag : str):
+    def select(self, url : str, tags: list):
         self.driver.get(url)
         self.driver.implicitly_wait(3)
 
-        source = self.driver.page_source
-        html = BeautifulSoup(source, "html.parser")
+        # source = self.driver.page_source
+        # html = BeautifulSoup(source, "html.parser")
 
-        mainContent = html.select(mainTag)
-        mainContent = ''.join(str(mainContent))
+        texts = []
 
-<<<<<<< Updated upstream
-        titleContent = html.select(titleTag)
-        titleContent = ''.join(str(titleContent))
-
-        return mainContent, titleContent
-=======
         for tag in tags:
             text = self.driver.find_element(By.CSS_SELECTOR, tag).text
             texts.append(text)
 
         return texts
->>>>>>> Stashed changes
 
 
     def preprocess(self, desc : str) -> str:
         content = re.sub(pattern=r'<[^>]*>', repl=r'', string=desc)
         pattern1 = """[\n\n\n\n\n// flash 오류를 우회하기 위한 함수 추가\nfunction _flash_removeCallback() {}"""
+        txt = content.replace(pattern1, '').replace('\n', ' ').replace('\u200b', '')
+        return txt
 
-        return content.replace(pattern1, '').replace('\n', ' ').replace('\u200b', '')
-
-
+    def postprocess(self, doc : dict, item) -> dict:
+        doc["title"] = self.preprocess(item["title"])
+        doc["date"] = datetime.strptime(item["postdate"], "%Y%m%d").strftime("%Y-%m-%d")
+        return doc
 
 
 

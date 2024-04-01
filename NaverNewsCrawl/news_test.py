@@ -35,6 +35,7 @@ else:
 i = 0
 for item in search_result["items"]:
     i += 1
-    print(naverNewsCrawler.crawl(item["link"], "news", "#dic_area","#title_area > span"
-                                 , "news", i))
+    naverNewsCrawler.title = item["title"]
+    print(naverNewsCrawler.crawl(item["link"], "news", ["#dic_area", "#title_area > span", "span.media_end_head_info_datestamp_time._ARTICLE_DATE_TIME"],
+                                 ["mainBody", "title", "date"], item))
 
