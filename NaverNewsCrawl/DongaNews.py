@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
 
 #id 지정
-NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
+NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
 
 #검색어 지정
 encText = urllib.parse.quote("보문역")
@@ -43,6 +43,6 @@ print(links)
 for link in links:
     i += 1
     print(link)
-    print(NewsCrawler.crawl(link, "news", ["section.news_view", "section.head_group > h1", "p > span.is_blind"],
+    print(NewsCrawler.crawl(link, "news", ["section.news_view", "section.head_group > h1", "meta"],
                                  ["mainBody", "title", "date"]))
 
