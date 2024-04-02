@@ -5,18 +5,14 @@ import json
 from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
 
 #id 지정
-NAVER_CLIENT_ID = "Pwl2n4GWNec7VL_RqRGP"
-NAVER_CLIENT_SECRET = "HJq5tjv7HY"
-naverNewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
+NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
 
 #검색어 지정
 encText = urllib.parse.quote("성북구")
-url = "https://openapi.naver.com/v1/search/news.json?query=" + encText # JSON 결과
+url = "https://www.joongang.co.kr/search?keyword=" + encText # JSON 결과
 
 #request
 request = urllib.request.Request(url)
-request.add_header("X-Naver-Client-Id",NAVER_CLIENT_ID)
-request.add_header("X-Naver-Client-Secret",NAVER_CLIENT_SECRET)
 
 #response 받기
 response = urllib.request.urlopen(request)
@@ -35,7 +31,7 @@ else:
 i = 0
 for item in search_result["items"]:
     i += 1
-    naverNewsCrawler.title = item["title"]
-    print(naverNewsCrawler.crawl(item["link"], "news", ["#dic_area", "#title_area > span", "span.media_end_head_info_datestamp_time._ARTICLE_DATE_TIME"],
+    NewsCrawler.title = item["title"]
+    print(NewsCrawler.crawl(item["link"], "news", ["div.article_body fs3", "header.article_header > h1.headline", "span.is_blind"],
                                  ["mainBody", "title", "date"], item))
 
