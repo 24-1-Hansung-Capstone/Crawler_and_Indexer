@@ -11,7 +11,7 @@ NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://localhost:9200", 
 
 #검색어 지정
 encText = urllib.parse.quote("보문역")
-url = "https://www.donga.com/news/search?query=" + encText # JSON 결과
+url = "https://www.kmib.co.kr/search/searchResult.asp?searchWord=" + encText # JSON 결과
 
 #request
 request = urllib.request.Request(url)
@@ -30,7 +30,7 @@ if(rescode == 200):
         a_tags = header_tag.find_all('a')
         for a_tag in a_tags:
             href = a_tag.get('href')
-            if "https://www.donga.com" in href:
+            if "https://www.kmib.co.kr" in href:
                 links.append(href)
 
 else:
@@ -43,6 +43,6 @@ print(links)
 for link in links:
     i += 1
     print(link)
-    print(NewsCrawler.crawl(link, "news", ["section.news_view", "section.head_group > h1", "p > span.is_blind"],
+    print(NewsCrawler.crawl(link, "news", ["div#articleBody.tx", "h1.article_headline", "span.t11"],
                                  ["mainBody", "title", "date"]))
 

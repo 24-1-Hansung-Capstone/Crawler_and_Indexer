@@ -32,7 +32,10 @@ class NaverNewsCrawler(CrawlingInterface):
         return txt
 
     def postprocess(self, doc : dict, item) -> dict:
-        doc["date"] = datetime.strptime(doc["date"], "%Y%m%d").strftime("%Y-%m-%d")
+        date_str = doc["date"]
+        date_obj = datetime.strptime(date_str, "%Y년 %m월 %d일 %H시 %M분")
+        formatted_date = date_obj.strftime("%Y%m%d")
+        doc["date"] = formatted_date
         return doc
 
 
