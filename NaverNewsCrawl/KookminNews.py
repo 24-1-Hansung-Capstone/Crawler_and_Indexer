@@ -10,7 +10,8 @@ from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
 NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
 
 #검색어 지정
-encText = urllib.parse.quote("보문역")
+search_term = "보문역"
+encText = urllib.parse.quote(search_term.encode('utf-16'))
 url = "https://www.kmib.co.kr/search/searchResult.asp?searchWord=" + encText # JSON 결과
 
 #request
@@ -25,7 +26,7 @@ links = []
 if(rescode == 200):
     response_body = response.read()
     soup = BeautifulSoup(response_body, 'html.parser')
-    header_tags = soup.find_all('header', class_='news_head')
+    header_tags = soup.find_all('dt', class_='tit')
     for header_tag in header_tags:
         a_tags = header_tag.find_all('a')
         for a_tag in a_tags:

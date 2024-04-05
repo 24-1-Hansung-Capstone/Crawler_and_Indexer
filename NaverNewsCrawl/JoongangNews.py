@@ -3,13 +3,26 @@ import urllib.parse
 import json
 
 from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
+from bs4 import BeautifulSoup
+from datetime import datetime
+
+# class JoongangNews():
+#     def __init__(self, host, authId, authPw):
+#         super().__init__(host, authId, authPw)
+#     def postprocess(self, doc: dict, item) -> dict:
+#         date_str = doc["date"]
+#         # print(date_str, " : ")
+#         date_obj = datetime.strptime(date_str, "%Y.%m.%d %H:%M")
+#         formatted_date = date_obj.strftime("%Y-%m-%d")
+#         doc["date"] = formatted_date
+#         return doc
 
 #id 지정
-NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
+NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
 
 #검색어 지정
-encText = urllib.parse.quote("성북구")
-url = "https://www.joongang.co.kr/search?keyword=" + encText # JSON 결과
+encText = urllib.parse.quote("동묘역")
+url = "https://www.joongang.co.kr/search/news?keyword=" + encText # JSON 결과
 
 #request
 request = urllib.request.Request(url)
@@ -17,21 +30,34 @@ request = urllib.request.Request(url)
 #response 받기
 response = urllib.request.urlopen(request)
 rescode = response.getcode()
+links = []
 
 #결과 파싱
 if(rescode == 200):
     response_body = response.read()
-    print(response_body.decode('utf-8'))
-    search_result = json.loads(response_body.decode('utf-8'))
+    soup = BeautifulSoup(response_body, 'html.parser')
+    section_tags = soup.find_all('section', class_='chain_wrap col_lg9')
+    for section_tag in section_tags:
+        ul_tags = section_tag.find('ul', class_='story_list')
+        if ul_tags:
+            header_tags = ul_tags.find_all('h2', class_='headline')
+    #header_tags = soup.find_all('h2', class_='headline')
+            for header_tag in header_tags:
+                a_tags = header_tag.find_all('a')
+                for a_tag in a_tags:
+                    href = a_tag.get('href')
+                    if "https://www.joongang.co.kr" in href:
+                        links.append(href)
 else:
     print("Error Code:" + rescode)
     exit(rescode)
 
 #크롤링
 i = 0
-for item in search_result["items"]:
+for link in links:
     i += 1
-    NewsCrawler.title = item["title"]
-    print(NewsCrawler.crawl(item["link"], "news", ["div.article_body fs3", "header.article_header > h1.headline", "span.is_blind"],
-                                 ["mainBody", "title", "date"], item))
+    #NewsCrawler.title = item["title"]
+    # article_body.article_body.fs3 아래 p 태그가 여러 개인데 첫번째 p 태그의 내용만 크롤링됨
+    print(NewsCrawler.crawl(link, "news", ["#article_body.article_body.fs3 > p", "header.article_header > h1.headline", "p.date > time"],
+                                 ["mainBody", "title", "date"]))
 
