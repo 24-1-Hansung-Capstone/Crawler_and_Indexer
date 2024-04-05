@@ -13,14 +13,20 @@ class NaverNewsCrawler(CrawlingInterface):
 
     def select(self, url : str, tags: list):
         self.driver.get(url)
-        self.driver.implicitly_wait(3)
+        self.driver.implicitly_wait(5)
 
         texts = []
 
         for tag in tags:
             print(tag)
-            text = self.driver.find_element(By.CSS_SELECTOR, tag).text
+            if "meta" == tag:
+                og_pubdate_content = (self.driver.find_element(By.XPATH, '//meta[@property="og:pubdate"]')
+                                      .get_attribute('content'))
+                text = og_pubdate_content
+            else:
+                text = self.driver.find_element(By.CSS_SELECTOR, tag).text
             texts.append(text)
+
 
         return texts
 
@@ -33,8 +39,9 @@ class NaverNewsCrawler(CrawlingInterface):
 
     def postprocess(self, doc : dict, item) -> dict:
         date_str = doc["date"]
-        date_obj = datetime.strptime(date_str, "%Y년 %m월 %d일 %H시 %M분")
-        formatted_date = date_obj.strftime("%Y%m%d")
+        print(date_str, " : ")
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+        formatted_date = date_obj.strftime("%Y-%m-%d")
         doc["date"] = formatted_date
         return doc
 
