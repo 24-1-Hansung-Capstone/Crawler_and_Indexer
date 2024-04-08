@@ -10,7 +10,7 @@ from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
 NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
 
 #검색어 지정
-search_term = "보문역"
+search_term = "강남역"
 encText = urllib.parse.quote(search_term.encode('utf-16'))
 url = "https://www.kmib.co.kr/search/searchResult.asp?searchWord=" + encText # JSON 결과
 

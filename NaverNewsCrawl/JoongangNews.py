@@ -1,27 +1,27 @@
 import urllib.request
 import urllib.parse
-import json
 
-from NaverNewsCrawl.NaverNewsCrawler import Naver_News_Crawler
+from NaverNewsCrawler.Naver_News_Crawler import NaverNewsCrawler
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-# class JoongangNews():
-#     def __init__(self, host, authId, authPw):
-#         super().__init__(host, authId, authPw)
-#     def postprocess(self, doc: dict, item) -> dict:
-#         date_str = doc["date"]
-#         # print(date_str, " : ")
-#         date_obj = datetime.strptime(date_str, "%Y.%m.%d %H:%M")
-#         formatted_date = date_obj.strftime("%Y-%m-%d")
-#         doc["date"] = formatted_date
-#         return doc
+class JoongangNews(NaverNewsCrawler):
+    def __init__(self, host, authId, authPw):
+        # 부모 클래스의 생성자 호출
+        super().__init__(host, authId, authPw)
+    def postprocess(self, doc: dict, item) -> dict:
+        date_str = doc["date"]
+        # print(date_str, " : ")
+        date_obj = datetime.strptime(date_str, "%Y.%m.%d %H:%M")
+        formatted_date = date_obj.strftime("%Y-%m-%d")
+        doc["date"] = formatted_date
+        return doc
 
 #id 지정
-NewsCrawler = Naver_News_Crawler.NaverNewsCrawler(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
+NewsCrawler = JoongangNews(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
 
 #검색어 지정
-encText = urllib.parse.quote("동묘역")
+encText = urllib.parse.quote("강남역")
 url = "https://www.joongang.co.kr/search/news?keyword=" + encText # JSON 결과
 
 #request
@@ -41,7 +41,7 @@ if(rescode == 200):
         ul_tags = section_tag.find('ul', class_='story_list')
         if ul_tags:
             header_tags = ul_tags.find_all('h2', class_='headline')
-    #header_tags = soup.find_all('h2', class_='headline')
+            #header_tags = soup.find_all('h2', class_='headline')
             for header_tag in header_tags:
                 a_tags = header_tag.find_all('a')
                 for a_tag in a_tags:
