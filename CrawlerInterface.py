@@ -12,6 +12,9 @@ class CrawlingInterface :
     def crawl(self, url : str, esIndex : str, tags : list, keys : list, item = None):
         texts = self.select(url, tags)
 
+        if texts is None:
+            return None
+
         texts = list(map(self.preprocess, texts))
         doc = dict(zip(keys, texts))
         doc["url"] = url

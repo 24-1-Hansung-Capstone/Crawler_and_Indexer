@@ -28,9 +28,12 @@ class NaverNewsCrawler(CrawlingInterface):
                 elements = self.driver.find_elements(By.CSS_SELECTOR, tag)  # 복수의 요소를 찾습니다.
                 text = ' '.join([element.text for element in elements])  # 각 요소의 텍스트를 추출하여 합칩니다.
             else:
-                text = self.driver.find_element(By.CSS_SELECTOR, tag).text
+                try:
+                    text = self.driver.find_element(By.CSS_SELECTOR, tag).text
+                except:
+                    print(f"Skipping link {url} due to missing title tag")
+                    return None
             texts.append(text)
-
         return texts
 
 
@@ -41,15 +44,8 @@ class NaverNewsCrawler(CrawlingInterface):
         return txt
 
 
-    def postprocess(self, doc : dict, item) -> dict: #언론사마다 date형식이 다르기 때문에 후처리 함수를 하위클래스에서 구현하는 방향으로
-        # date_str = doc["date"]
-        # #print(date_str, " : ")
-        # date_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M")
-        # formatted_date = date_obj.strftime("%Y-%m-%d")
-        # doc["date"] = formatted_date
+    def postprocess(self, doc : dict, item) -> dict: #언론사마다 date형식이 다르기 때문에 후처리 함수를 하위클래스에서 구현
         return doc
-
-
 
 
 
