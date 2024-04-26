@@ -22,7 +22,7 @@ NewsCrawler = JoongangNews(host="http://43.202.45.47:9200", authId ="elastic", a
 
 #검색어 지정
 urls = []
-encText = urllib.parse.quote("보문역")
+encText = urllib.parse.quote("성신여대입구역")
 for i in range(1,5):
     url = "https://www.joongang.co.kr/search/news?keyword=" + encText + "&page=" + str(i) # JSON 결과
     urls.append(url)
