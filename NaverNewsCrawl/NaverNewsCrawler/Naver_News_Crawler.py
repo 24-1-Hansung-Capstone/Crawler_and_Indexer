@@ -11,16 +11,20 @@ class NaverNewsCrawler(CrawlingInterface):
 
     def select(self, url : str, tags: list):
         self.driver.get(url)
-        self.driver.implicitly_wait(5)
+        self.driver.implicitly_wait(15)
 
         texts = []
 
         for tag in tags:
             print(tag)
-            if "meta" == tag: # 동아일보 date 태그
-                og_pubdate_content = (self.driver.find_element(By.XPATH, '//meta[@property="og:pubdate"]')
+            if tag == "meta":  # 동아일보 date 태그
+                og_pubdate_content = (self.driver.find_element(By.XPATH, '/html/head/meta[17]')
                                       .get_attribute('content'))
                 text = og_pubdate_content
+            elif tag == "span.media_end_head_info_datestamp_time._ARTICLE_DATE_TIME":  # 네이버페이 부동산 뉴스 입력날짜
+                date = str((self.driver.find_element(By.XPATH, '//*[@id="ct"]/div[1]/div[3]/div[1]/div/span')
+                           .get_attribute('data-date-time')))
+                text = date
             elif tag == "#article_body.article_body.fs3 > p":  # 중앙일보 내용
                 elements = self.driver.find_elements(By.CSS_SELECTOR, tag)  # 복수의 요소를 찾습니다.
                 text = ' '.join([element.text for element in elements])  # 각 요소의 텍스트를 추출하여 합칩니다.
@@ -28,9 +32,12 @@ class NaverNewsCrawler(CrawlingInterface):
                 elements = self.driver.find_elements(By.CSS_SELECTOR, tag)  # 복수의 요소를 찾습니다.
                 text = ' '.join([element.text for element in elements])  # 각 요소의 텍스트를 추출하여 합칩니다.
             else:
-                text = self.driver.find_element(By.CSS_SELECTOR, tag).text
+                try:
+                    text = self.driver.find_element(By.CSS_SELECTOR, tag).text
+                except:
+                    print(f"Skipping link {url} due to missing title tag")
+                    return None
             texts.append(text)
-
         return texts
 
 
@@ -41,15 +48,8 @@ class NaverNewsCrawler(CrawlingInterface):
         return txt
 
 
-    def postprocess(self, doc : dict, item) -> dict: #언론사마다 date형식이 다르기 때문에 후처리 함수를 하위클래스에서 구현하는 방향으로
-        # date_str = doc["date"]
-        # #print(date_str, " : ")
-        # date_obj = datetime.strptime(date_str, "%Y-%m-%d %H:%M")
-        # formatted_date = date_obj.strftime("%Y-%m-%d")
-        # doc["date"] = formatted_date
+    def postprocess(self, doc : dict, item) -> dict: #언론사마다 date형식이 다르기 때문에 후처리 함수를 하위클래스에서 구현
         return doc
-
-
 
 
 

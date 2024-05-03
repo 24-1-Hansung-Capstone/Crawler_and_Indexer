@@ -19,13 +19,15 @@ class HangyureNews(NaverNewsCrawler):
         return doc
 
 #id 지정
-NewsCrawler = HangyureNews(host="http://13.125.6.140:9200", authId ="elastic", authPw="changeme")
+NewsCrawler = HangyureNews(host="http://43.202.45.47:9200", authId ="elastic", authPw="changeme")
 
 #검색어 지정
 urls = []
+now = datetime.now()
+date = now.strftime("%Y.%m.%d")
 encText = urllib.parse.quote("강남역")
-for i in range(1, 21, 10):
-    url = "https://search.hani.co.kr/search/newslist?searchword=%EA%B0%95%EB%82%A8%EC%97%AD&startdate=1988.01.01&enddate=2024.04.05&page=" + encText + "&startdate=1988.01.01&enddate=2024.04.05&page=" + str(i) + "&sort=desc" # JSON 결과
+for i in range(1,3):
+    url = "https://search.hani.co.kr/search/newslist?searchword=%EA%B0%95%EB%82%A8%EC%97%AD&startdate=1988.01.01&enddate="+date+"&page=" + encText + "&startdate=1988.01.01&enddate=2024.04.08&page=" + str(i) + "&sort=desc" # JSON 결과
     urls.append(url)
 
 for url in urls:
@@ -59,6 +61,8 @@ for url in urls:
     for link in links:
         i += 1
         print(link)
-        print(NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__fDOCx", "li.ArticleDetailView_dateListItem__6uf9E > span"],
-                                     ["mainBody", "title", "date"])) #h3.ArticleDetailView_title__i0jb9을 만나면 끊김
-
+        result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__fDOCx", "li.ArticleDetailView_dateListItem__6uf9E > span"],
+                                     ["mainBody", "title", "date"]) #h3.ArticleDetailView_title__i0jb9을 만나면 끊김
+        if result is None:
+            continue
+        print(result)

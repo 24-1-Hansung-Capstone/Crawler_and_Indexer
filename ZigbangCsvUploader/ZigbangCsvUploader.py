@@ -1,3 +1,5 @@
+import os
+
 import CsvUploaderInterface
 
 class ZigbangCsvUploader(CsvUploaderInterface.CsvUploader):
@@ -20,5 +22,13 @@ class ZigbangCsvUploader(CsvUploaderInterface.CsvUploader):
     def __del__(self):
         super().__del__()
 
-zigbang = ZigbangCsvUploader(file_path = "../zigbang_csv/wydjp.csv", host="https://localhost:9200", authId ="elastic", authPw="cAh+sWnbfRlXz1KimBpp")
-zigbang.uploadCsv(esIndex = "zigbang", esId = 1)
+i = 0
+for foldername, subfolders, filenames in os.walk("../zigbang_csv"):
+    for filename in filenames:
+        i += 1
+        file_path = os.path.join(foldername, filename)
+        zigbang = ZigbangCsvUploader(file_path=file_path, host="http://43.202.45.47:9200",
+                                     authId="elastic", authPw="elastic")
+        zigbang.uploadCsv(esIndex="zigbang", esId=i)
+
+
