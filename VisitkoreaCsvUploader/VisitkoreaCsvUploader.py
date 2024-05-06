@@ -4,11 +4,11 @@ class VisitkoreaCsvUploader(CsvUploaderInterface.CsvUploader):
     def __init__(self, file_path: str, host: str, authId: str, authPw: str):
         super().__init__(file_path, host, authId, authPw)
     def processItem(self, item):
-        item['title'] = str(item['Title'])
-        item['location'] = str(item['Location'])
-        item['description'] = str(item['Description'])
-        item['tags'] = str(item['Tags'])
-        item['photoURL'] = str(item['Photo URL'])
+        item['title'] = str(item['title'])
+        item['location'] = str(item['location'])
+        item['description'] = str(item['description'])
+        item['tags'] = str(item['tags'])
+        item['photoURL'] = str(item['photoURL'])
 
         return item
 

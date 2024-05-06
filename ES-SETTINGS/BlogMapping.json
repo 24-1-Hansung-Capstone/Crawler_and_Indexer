@@ -2,6 +2,7 @@
   "properties": {
     "title": {
       "type": "text",
+      // "fielddata": true, // 데이터 사용량 엄청날 수 있음.
       "analyzer": "korean_analyzer"
     },
     "url": {
@@ -9,6 +10,7 @@
     },
     "mainBody": {
       "type": "text",
+      // "fielddata": true, // 데이터 사용량 엄청날 수 있음.
       "analyzer": "korean_analyzer"
     },
     "date": {

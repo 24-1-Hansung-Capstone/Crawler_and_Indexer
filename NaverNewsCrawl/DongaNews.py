@@ -23,8 +23,8 @@ NewsCrawler = DongaNews(host="http://43.202.45.47:9200", authId ="elastic", auth
 
 #검색어 지정
 urls = []
-encText = urllib.parse.quote("보문역")
-for i in range(1, 41, 10):
+encText = urllib.parse.quote("서울역")
+for i in range(1, 21, 10):
     url = "https://www.donga.com/news/search?p=" + str(i) + "&query=" + encText + "&check_news=91&sorting=1&search_date=1&v1=&v2=&more=1" # JSON 결과
     urls.append(url)
 
