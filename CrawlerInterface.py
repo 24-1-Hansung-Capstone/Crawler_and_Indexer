@@ -18,7 +18,6 @@ class CrawlingInterface :
         texts = list(map(self.preprocess, texts))
         doc = dict(zip(keys, texts))
         doc["url"] = url
-
         doc = self.postprocess(doc, item)
 
         print(doc)
