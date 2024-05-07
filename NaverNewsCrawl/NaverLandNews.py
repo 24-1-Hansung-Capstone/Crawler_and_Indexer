@@ -19,7 +19,7 @@ class NaverLandNews(NaverNewsCrawler):
         return doc
 
 #id 지정
-NewsCrawler = NaverLandNews(host="http://43.202.45.47:9200", authId ="elastic", authPw="elastic")
+NewsCrawler = NaverLandNews(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
 driver = webdriver.Chrome()
 # #검색어 지정
 urls = []

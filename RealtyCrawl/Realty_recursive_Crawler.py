@@ -29,7 +29,7 @@ class Realty_recursive_Crawler(Realty_Crawler):
     #     return doc
 
 #id 지정
-RealtyCrawler = Realty_recursive_Crawler(host="http://localhost:9200", authId ="elastic", authPw="elastic")
+RealtyCrawler = Realty_recursive_Crawler(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
 driver = webdriver.Chrome()
 
 # #검색어 지정

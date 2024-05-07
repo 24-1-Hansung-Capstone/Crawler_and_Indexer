@@ -18,7 +18,7 @@ class JoongangNews(NaverNewsCrawler):
         return doc
 
 #id 지정
-NewsCrawler = JoongangNews(host="http://43.202.45.47:9200", authId ="elastic", authPw="elastic")
+NewsCrawler = JoongangNews(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
 
 # 검색어 파일 읽기
 with open("searchWord2.txt", "r") as file:
