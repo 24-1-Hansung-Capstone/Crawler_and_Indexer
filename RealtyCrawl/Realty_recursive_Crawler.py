@@ -20,7 +20,7 @@ class Realty_recursive_Crawler(Realty_Crawler):
         return doc
 
 #id 지정
-RealtyCrawler = Realty_recursive_Crawler(host="http://43.202.45.47:9200", authId ="elastic", authPw="changeme")
+RealtyCrawler = Realty_recursive_Crawler(host="http://localhost:9200", authId ="elastic", authPw="changeme")
 driver = webdriver.Chrome()
 
 #검색어 지정
@@ -38,21 +38,21 @@ links = []
 #     response_body = response.read()
 for page_number in range(1, 8):
     # JavaScript 코드 실행
+    time.sleep(5)
     driver.execute_script(f"goPage({page_number}, 1)")
+    time.sleep(5)
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
-    header_tags = soup.find_all('ul', class_='list_article.Best')
-    for header_tag in header_tags:
-        a_tags = header_tag.find_all('a')
-        for a_tag in a_tags:
-            onclick_value = a_tag.get('onclick')
-            # 추출된 onclick 속성 값에서 매묿번호 "R2405071107909" 값을 추출
-            value_start_index = onclick_value.find('\'') + 1
-            value_end_index = onclick_value.find('\'', value_start_index)
-            extracted_value = onclick_value[value_start_index:value_end_index]
-            links.append("https://www.r114.com/?_c=memul&_m=HouseDetail&mulcode=" + extracted_value)
+    a_tags = soup.find_all('a', class_='cont')
+    for a_tag in a_tags:
+        onclick_value = a_tag.get('onclick')
+        # 추출된 onclick 속성 값에서 매묿번호 "R2405071107909" 값을 추출
+        value_start_index = onclick_value.find('\'') + 1
+        value_end_index = onclick_value.find('\'', value_start_index)
+        extracted_value = onclick_value[value_start_index:value_end_index]
+        links.append("https://www.r114.com/?_c=memul&_m=HouseDetail&mulcode=" + extracted_value)
+    print(links)
     # 1초 대기 (페이지가 로드될 때까지 충분한 시간을 기다립니다)
-    time.sleep(1)
 
 # else:
 #     print("Error Code:" + rescode)
