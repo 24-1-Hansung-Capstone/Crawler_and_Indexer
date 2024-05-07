@@ -8,6 +8,7 @@ NAVER_CLIENT_ID = "Pwl2n4GWNec7VL_RqRGP"
 NAVER_CLIENT_SECRET = "HJq5tjv7HY"
 naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic") #cAh+sWnbfRlXz1KimBp
 
+i = 0
 # 파일을 열고 'file'이라는 변수에 저장합니다.
 with open('../searchWords.txt', 'r', encoding='utf-8') as file:
     # 파일 1줄 반복
@@ -15,7 +16,7 @@ with open('../searchWords.txt', 'r', encoding='utf-8') as file:
 
         # 검색어 지정
         encText = urllib.parse.quote(line.strip())
-        url = "https://openapi.naver.com/v1/search/blog?query=" + encText  # JSON 결과
+        url = "https://openapi.naver.com/v1/search/blog?query=" + encText + "display=100"  # JSON 결과
 
         # request
         request = urllib.request.Request(url)
@@ -35,7 +36,6 @@ with open('../searchWords.txt', 'r', encoding='utf-8') as file:
             exit(rescode)
 
         # 크롤링
-        i = 0
         for item in search_result["items"]:
             i += 1
             naverBlogCrawler.title = item["title"]
