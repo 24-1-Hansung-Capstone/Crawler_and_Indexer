@@ -16,14 +16,13 @@ class Realty_Crawler(CrawlingInterface):
         texts = []
 
         for tag in tags:
-            print(tag)
             try:
                 text = self.driver.find_element(By.CSS_SELECTOR, tag).text
             except:
                 print(f"Skipping link {url} due to missing title tag")
                 return None
             texts.append(text)
-            return texts
+        return texts
 
 
     def preprocess(self, desc : str) -> str:

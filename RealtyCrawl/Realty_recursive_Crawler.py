@@ -5,25 +5,34 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 
 from RealtyCrawler.Realty_Crawler import Realty_Crawler
-from datetime import datetime
 import time
 
 class Realty_recursive_Crawler(Realty_Crawler):
     def __init__(self, host, authId, authPw):
         # 부모 클래스의 생성자 호출
         super().__init__(host, authId, authPw)
-    def postprocess(self, doc: dict, item) -> dict:
-        date_str = doc["date"].split()[-1]
-        date_obj = datetime.strptime(date_str, "%y.%m.%d")
-        formatted_date = date_obj.strftime("%Y-%m-%d")
-        doc["date"] = formatted_date
-        return doc
+    # def postprocess(self, doc: dict, item) -> dict:
+    #     input_string = doc["date"].split()[1]
+    #
+    #     match = re.search(r"확인 (\d{2}.\d{2}.\d{2})", input_string)
+    #     if match:
+    #         date_str = match.group(1)
+    #
+    #         # 년도를 현재 년도로 가정하여 완전한 ISO 형식의 날짜로 변환
+    #         date_iso = datetime.strptime(date_str, "%y.%m.%d").strftime("%Y-%m-%d")
+    #         print(date_iso)
+    #     else:
+    #         print("날짜를 찾을 수 없습니다.")
+    #         date_iso = ""
+    #
+    #     doc["date"] = date_iso
+    #     return doc
 
 #id 지정
-RealtyCrawler = Realty_recursive_Crawler(host="http://localhost:9200", authId ="elastic", authPw="changeme")
+RealtyCrawler = Realty_recursive_Crawler(host="http://localhost:9200", authId ="elastic", authPw="elastic")
 driver = webdriver.Chrome()
 
-#검색어 지정
+# #검색어 지정
 url = driver.get("https://www.r114.com/?_c=memul&_m=p10")
 # #request
 # request = urllib.request.Request(url)
@@ -32,7 +41,6 @@ url = driver.get("https://www.r114.com/?_c=memul&_m=p10")
 # response = urllib.request.urlopen(request)
 # rescode = response.getcode()
 links = []
-#
 # #결과 파싱
 # if(rescode == 200):
 #     response_body = response.read()
@@ -52,7 +60,7 @@ for page_number in range(1, 8):
         extracted_value = onclick_value[value_start_index:value_end_index]
         links.append("https://www.r114.com/?_c=memul&_m=HouseDetail&mulcode=" + extracted_value)
     print(links)
-    # 1초 대기 (페이지가 로드될 때까지 충분한 시간을 기다립니다)
+    print(len(links))
 
 # else:
 #     print("Error Code:" + rescode)
@@ -64,7 +72,7 @@ print(links)
 for link in links:
     i += 1
     print(link)
-    print(RealtyCrawler.crawl(link, "realty", ["div.name", "div.build_price > div.mode", "div.build_price > div.value", "div.basic_area", "div.basic_opt", "dl.info_item_list > dd", "div.tag.type08"],
-                                 ["title", "mode", "price", "desc", "option", "location", "date"]))
+    print(RealtyCrawler.crawl(link, "realty", ["div.build_area > div.name", "div.build_price > div.mode", "div.build_price > div.value", "div.basic_area > div > summary", "div.basic_opt", "section#view_danji > div.info_wrap > div > dl.info_item_list > dd"],
+                                 ["title", "mode", "price", "desc", "option", "location"]))
 
 driver.quit()
