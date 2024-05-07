@@ -51,11 +51,10 @@ for page_number in range(1, 8):
     time.sleep(5)
     html = driver.page_source
     soup = BeautifulSoup(html, 'html.parser')
-
     a_tags = soup.find_all('a', class_='cont')
     for a_tag in a_tags:
         onclick_value = a_tag.get('onclick')
-        # 추출된 onclick 속성 값에서 매물번호 "R2405071107909" 값을 추출
+        # 추출된 onclick 속성 값에서 매묿번호 "R2405071107909" 값을 추출
         value_start_index = onclick_value.find('\'') + 1
         value_end_index = onclick_value.find('\'', value_start_index)
         extracted_value = onclick_value[value_start_index:value_end_index]
