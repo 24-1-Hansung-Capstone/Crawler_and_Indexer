@@ -27,7 +27,7 @@ with open('../searchWords.txt', 'r', encoding='utf-8') as file:
         rescode = response.getcode()
 
         # 결과 파싱
-            print(response_body.decode('utf-8'))
+        print(response_body.decode('utf-8'))
         if (rescode == 200):
             response_body = response.read()
             search_result = json.loads(response_body.decode('utf-8'))
