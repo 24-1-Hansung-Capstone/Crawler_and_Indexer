@@ -23,7 +23,8 @@ class CrawlingInterface :
 
             print(doc)
             result = self.appendToEs(esIndex, url, doc)
-        except:
+        except Exception as e:
+            print(e)
             print("not crawled : ", url)
             result = False
         return result
