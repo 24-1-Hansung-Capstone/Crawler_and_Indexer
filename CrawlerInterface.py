@@ -10,18 +10,22 @@ class CrawlingInterface :
         self.es = Elasticsearch(hosts=host, basic_auth=(authId, authPw), verify_certs=False)
 
     def crawl(self, url : str, esIndex : str, tags : list, keys : list, item = None):
-        texts = self.select(url, tags)
+        try:
+            texts = self.select(url, tags)
 
-        if texts is None:
-            return None
+            if texts is None:
+                return None
 
-        texts = list(map(self.preprocess, texts))
-        doc = dict(zip(keys, texts))
-        doc["url"] = url
-        doc = self.postprocess(doc, item)
+            texts = list(map(self.preprocess, texts))
+            doc = dict(zip(keys, texts))
+            doc["url"] = url
+            doc = self.postprocess(doc, item)
 
-        print(doc)
-        result = self.appendToEs(esIndex, url, doc)
+            print(doc)
+            result = self.appendToEs(esIndex, url, doc)
+        except:
+            print("not crawled : ", url)
+            result = False
         return result
 
     def select(self, url : str, tags: list):
