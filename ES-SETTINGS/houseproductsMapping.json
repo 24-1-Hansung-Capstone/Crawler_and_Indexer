@@ -1,0 +1,31 @@
+{
+    "properties": {
+        "title": {
+            "type": "text",
+            "fielddata": true,
+            "analyzer": "korean_analyzer"
+        },
+        "url": {
+            "type": "keyword"
+        },
+        "mode": {
+            "type": "text"
+        },
+        "price": {
+            "type": "keyword"
+        },
+        "desc": {
+            "type": "text",
+            "fielddata": true,
+            "analyzer": "korean_analyzer"
+        },
+        "option": {
+            "type": "text"
+        },
+        "location": {
+            "type": "text",
+            "fielddata": true,
+            "analyzer": "korean_analyzer"
+        }
+    }
+}
