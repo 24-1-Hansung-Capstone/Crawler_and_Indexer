@@ -19,16 +19,17 @@ class DongaNews(NaverNewsCrawler):
         return doc
 
 #id 지정
-NewsCrawler = DongaNews(host="http://43.202.45.47:9200", authId ="elastic", authPw="elastic")
+NewsCrawler = DongaNews(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
 
 # 검색어 파일 읽기
-with open("searchWord2.txt", "r") as file:
+with open("../searchWords2.txt", "r", encoding="UTF-8") as file:
     search_words = file.readlines()
 
 # 검색어별로 처리
 for word in search_words:
     encText = urllib.parse.quote(word.strip())  # 단어 좌우의 공백 제거 후 인코딩
     urls = []
+    print(word)
     for i in range(1, 31, 10):
         url = "https://www.donga.com/news/search?p=" + str(i) + "&query=" + encText + "&check_news=91&sorting=1&search_date=1&v1=&v2=&more=1" # JSON 결과
         urls.append(url)

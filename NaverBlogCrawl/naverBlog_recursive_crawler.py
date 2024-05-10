@@ -13,34 +13,32 @@ i = 0
 with open('../searchWords.txt', 'r', encoding='utf-8') as file:
     # 파일 1줄 반복
     for line in file:
+        for add_word in ["부동산", "전세", "월세", "매매"]:
+            # 검색어 지정
+            encText = urllib.parse.quote(line.strip() + add_word)
+            url = "https://openapi.naver.com/v1/search/blog?query=" + encText + "display=2"  # JSON 결과
 
-        # 검색어 지정
-        encText = urllib.parse.quote(line.strip())
-        url = "https://openapi.naver.com/v1/search/blog?query=" + encText + "display=3"  # JSON 결과
+            # request
+            request = urllib.request.Request(url)
+            request.add_header("X-Naver-Client-Id", NAVER_CLIENT_ID)
+            request.add_header("X-Naver-Client-Secret", NAVER_CLIENT_SECRET)
 
-        # request
-        request = urllib.request.Request(url)
-        request.add_header("X-Naver-Client-Id", NAVER_CLIENT_ID)
-        request.add_header("X-Naver-Client-Secret", NAVER_CLIENT_SECRET)
+            # response 받기
+            response = urllib.request.urlopen(request)
+            rescode = response.getcode()
 
-        # response 받기
-        response = urllib.request.urlopen(request)
-        rescode = response.getcode()
+            # 결과 파싱
+            if (rescode == 200):
+                response_body = response.read()
+                search_result = json.loads(response_body.decode('utf-8'))
+            else:
+                print("Error Code:" + rescode)
+                exit(rescode)
 
-        # 결과 파싱
-        if (rescode == 200):
-            response_body = response.read()
-            search_result = json.loads(response_body.decode('utf-8'))
-        else:
-            print("Error Code:" + rescode)
-            exit(rescode)
-
-        # 크롤링
-
-        for item in search_result["items"]:
-            naverBlogCrawler.title = item["title"]
-            print(item["link"])
-            print(naverBlogCrawler.crawl(item["link"], "blog",
-                                         ["div.se-main-container", "span.se-fs-", "span.se_publishDate"],
-                                         ["mainBody", "title", "date"], item))
-
+            # 크롤링
+            for item in search_result["items"]:
+                i += 1
+                naverBlogCrawler.title = item["title"]
+                print(naverBlogCrawler.crawl(item["link"], "blog",
+                                             ["div.se-main-container", "span.se-fs-", "span.se_publishDate"],
+                                             ["mainBody", "title", "date"], item))
