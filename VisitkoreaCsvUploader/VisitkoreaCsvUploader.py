@@ -15,5 +15,6 @@ class VisitkoreaCsvUploader(CsvUploaderInterface.CsvUploader):
     def __del__(self):
         super().__del__()
 
-visitkorea = VisitkoreaCsvUploader(file_path = "../visitkorea_csv/Visitkorea_Crawled_Data.csv", host="http://43.202.45.47:9200", authId ="elastic", authPw="changeme") #cAh+sWnbfRlXz1KimBpp
+visitkorea = VisitkoreaCsvUploader(file_path = "../visitkorea_csv/Visitkorea_Crawled_Data.csv",
+                                   host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic") #cAh+sWnbfRlXz1KimBpp
 visitkorea.uploadCsv(esIndex = "visitkorea", esId = 1)
