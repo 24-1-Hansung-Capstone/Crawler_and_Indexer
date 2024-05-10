@@ -22,7 +22,7 @@ class HangyureNews(NaverNewsCrawler):
 NewsCrawler = HangyureNews(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
 
 # 검색어 파일 읽기
-with open("searchWord2.txt", "r") as file:
+with open("../searchWords2.txt", "r", encoding='UTF-8') as file:
     search_words = file.readlines()
 
 # 검색어별로 처리
@@ -67,7 +67,7 @@ for word in search_words:
         for link in links:
             i += 1
             print(link)
-            result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__fDOCx", "li.ArticleDetailView_dateListItem__6uf9E > span"],
+            result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__9kRU_", "li.ArticleDetailView_dateListItem__6uf9E > span"],
                                          ["mainBody", "title", "date"]) #h3.ArticleDetailView_title__i0jb9을 만나면 끊김
             if result is None:
                 continue
