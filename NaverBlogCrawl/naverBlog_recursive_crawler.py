@@ -41,6 +41,12 @@ with open('../searchWords2.txt', 'r', encoding='utf-8') as file:
             # 크롤링
             for item in search_result["items"]:
                 i += 1
+
+                if (i == 50):
+                    naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="http://221.142.15.180:9200",
+                                                                           authId="elastic",
+                                                                           authPw="elastic")  # cAh+sWnbfRlXz1KimBp
+
                 naverBlogCrawler.title = item["title"]
                 print(naverBlogCrawler.crawl(item["link"], "blog",
                                              ["div.se-main-container", "span.se-fs-", "span.se_publishDate"],
