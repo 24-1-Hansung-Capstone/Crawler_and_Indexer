@@ -16,7 +16,7 @@ class NaverBlogCrawler(CrawlingInterface):
 
     def select(self, url : str, tags: list):
         self.driver.get(url)
-        time.sleep(5)
+        time.sleep(2)
 
         iframe = self.driver.find_element(By.ID, "mainFrame")
         self.driver.switch_to.frame(iframe)

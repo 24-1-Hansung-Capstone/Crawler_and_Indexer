@@ -10,13 +10,16 @@ naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="http://221.142.15.1
 
 i = 0
 # 파일을 열고 'file'이라는 변수에 저장합니다.
-with open('../searchWords.txt', 'r', encoding='utf-8') as file:
+with open('../searchWords2.txt', 'r', encoding='utf-8') as file:
     # 파일 1줄 반복
     for line in file:
-        for add_word in ["부동산", "전세", "월세", "매매"]:
+        for add_word in ["부동산", "전세", "매매"]:
             # 검색어 지정
+            if "역" not in line:
+                continue
+            print("검색어 : ", line.strip() + add_word)
             encText = urllib.parse.quote(line.strip() + add_word)
-            url = "https://openapi.naver.com/v1/search/blog?query=" + encText + "display=2"  # JSON 결과
+            url = "https://openapi.naver.com/v1/search/blog?query=" + encText + "display=1"  # JSON 결과
 
             # request
             request = urllib.request.Request(url)
