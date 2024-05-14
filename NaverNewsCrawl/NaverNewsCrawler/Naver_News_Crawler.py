@@ -11,7 +11,7 @@ class NaverNewsCrawler(CrawlingInterface):
 
     def select(self, url : str, tags: list):
         self.driver.get(url)
-        self.driver.implicitly_wait(15)
+        self.driver.implicitly_wait(10)
 
         texts = []
 

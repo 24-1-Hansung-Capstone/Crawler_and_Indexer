@@ -24,7 +24,7 @@ NewsCrawler = HangyureNews(host="http://221.142.15.180:9200", authId ="elastic",
 # 검색어 파일 읽기
 with open("../searchWords2.txt", "r", encoding='UTF-8') as file:
     search_words = file.readlines()
-    
+
 # 검색어별로 처리
 for word in search_words:
     #검색어 지정
