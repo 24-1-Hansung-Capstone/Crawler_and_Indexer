@@ -24,7 +24,7 @@ driver = webdriver.Chrome()
 # #검색어 지정
 urls = []
 for i in range(1, 10):
-    url = "https://land.naver.com/news/headline.naver?bss_ymd=20240507&page=" + str(i)  # JSON 결과
+    url = "https://land.naver.com/news/headline.naver?bss_ymd=20240509&page=" + str(i)  # JSON 결과
     urls.append(url)
 # 웹 페이지 열기
 for url in urls:

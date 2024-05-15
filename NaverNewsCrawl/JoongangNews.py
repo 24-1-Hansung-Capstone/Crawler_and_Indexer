@@ -27,6 +27,7 @@ with open("../searchWords2.txt", "r", encoding='UTF-8') as file:
 # 검색어별로 처리
 for word in search_words:
     urls = []
+    print(word)
     encText = urllib.parse.quote(word.strip())  # 단어 좌우의 공백 제거 후 인코딩
     for i in range(1,4):
         url = "https://www.joongang.co.kr/search/news?keyword=" + encText + "&page=" + str(i) # JSON 결과

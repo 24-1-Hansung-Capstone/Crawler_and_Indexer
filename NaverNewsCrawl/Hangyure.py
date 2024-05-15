@@ -29,6 +29,7 @@ with open("../searchWords2.txt", "r", encoding='UTF-8') as file:
 for word in search_words:
     #검색어 지정
     urls = []
+    print(word)
     now = datetime.now()
     date = now.strftime("%Y.%m.%d")
     encText = urllib.parse.quote(word.strip())  # 단어 좌우의 공백 제거 후 인코딩
@@ -67,7 +68,7 @@ for word in search_words:
         for link in links:
             i += 1
             print(link)
-            result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__9kRU_", "li.ArticleDetailView_dateListItem__6uf9E > span"],
+            result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__9kRU_", "li.ArticleDetailView_dateListItem__mRc3d > span"],
                                          ["mainBody", "title", "date"]) #h3.ArticleDetailView_title__i0jb9을 만나면 끊김
             if result is None:
                 continue

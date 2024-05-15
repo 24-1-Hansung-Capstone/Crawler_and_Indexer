@@ -72,7 +72,7 @@ print(links)
 for link in links:
     i += 1
     print(link)
-    print(RealtyCrawler.crawl(link, "realty", ["div.build_area > div.name", "div.build_price > div.mode", "div.build_price > div.value", "div.basic_area > div > summary", "div.basic_opt", "section#view_danji > div.info_wrap > div > dl.info_item_list > dd"],
+    print(RealtyCrawler.crawl(link, "houseproducts", ["div.build_area > div.name", "div.build_price > div.mode", "div.build_price > div.value", "div.basic_area > div > summary", "div.basic_opt", "section#view_danji > div.info_wrap > div > dl.info_item_list > dd"],
                                  ["title", "mode", "price", "desc", "option", "location"]))
 
 driver.quit()
