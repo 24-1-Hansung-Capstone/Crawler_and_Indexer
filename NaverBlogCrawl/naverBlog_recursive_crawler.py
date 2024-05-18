@@ -46,6 +46,7 @@ with open('../searchWords2.txt', 'r', encoding='utf-8') as file:
                     naverBlogCrawler = Naver_blog_crawler.NaverBlogCrawler(host="http://221.142.15.180:9200",
                                                                            authId="elastic",
                                                                            authPw="elastic")  # cAh+sWnbfRlXz1KimBp
+                    i = 0
 
                 naverBlogCrawler.title = item["title"]
                 print(naverBlogCrawler.crawl(item["link"], "blog",
