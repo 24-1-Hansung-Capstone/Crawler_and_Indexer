@@ -43,8 +43,14 @@ class NaverBlogCrawler(CrawlingInterface):
 
     def postprocess(self, doc : dict, item) -> dict:
         doc["title"] = self.preprocess(item["title"])
-        doc["date"] = datetime.strptime(item["postdate"], "%Y%m%d").strftime("%Y-%m-%d")
-        return doc
+        date_str = item["postdate"]
+        date_obj = datetime.strptime(date_str, "%Y%m%d")
+
+        if date_obj.year >= 2015:
+            doc["date"] = date_obj.strftime("%Y-%m-%d")
+            return doc
+        else:
+            return None
 
     def handleNoSuchElementException(self, e, tag):
         #블로그 본문인 경우 구버전 고려

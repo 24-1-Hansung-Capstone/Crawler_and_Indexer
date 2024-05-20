@@ -21,6 +21,9 @@ class CrawlingInterface :
             doc["url"] = url
             doc = self.postprocess(doc, item)
 
+            if doc is None:  # postprocess가 None을 반환하면 문서를 건너뜁니다.
+                return False
+
             print(doc)
             result = self.appendToEs(esIndex, url, doc)
         except Exception as e:
