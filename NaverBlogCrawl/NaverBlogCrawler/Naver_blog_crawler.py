@@ -11,7 +11,7 @@ print("install done")
 
 class NaverBlogCrawler(CrawlingInterface):
     def __init__(self, host: str, authId : str, authPw : str):
-        super().__init__(host, authId, authPw)
+        super().__init__(host, authId, authPw, True)
         self.driver = webdriver.Chrome()
 
     def select(self, url : str, tags: list):
