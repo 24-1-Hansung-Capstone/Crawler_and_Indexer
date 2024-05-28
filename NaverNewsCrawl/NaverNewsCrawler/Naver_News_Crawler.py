@@ -16,7 +16,6 @@ class NaverNewsCrawler(CrawlingInterface):
         texts = []
 
         for tag in tags:
-            print(tag)
             if tag == "meta":  # 동아일보 date 태그
                 og_pubdate_content = (self.driver.find_element(By.XPATH, '/html/head/meta[17]')
                                       .get_attribute('content'))

@@ -74,6 +74,9 @@ for word in search_words:
             i = 0
             for link in links:
                 i += 1
-                #NewsCrawler.title = item["title"]
+                if (i == 50):
+                    NewsCrawler = JoongangNews(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
+
+                    i = 0
                 print(NewsCrawler.crawl(link, "news", ["#article_body.article_body.fs3 > p", "header.article_header > h1.headline", "p.date > time"],
                                              ["mainBody", "title", "date"]))

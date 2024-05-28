@@ -30,7 +30,7 @@ with open("../searchWords2.txt", "r", encoding="UTF-8") as file:
 # 추가할 단어 목록
 additional_keywords = ["부동산", "전세", "월세", "매매", "임대"]
 
-# 검색어별로 처리 //대림부동산까지 실행됨
+# 검색어별로 처리
 for word in search_words:
     word = word.strip()  # 단어 좌우의 공백 제거
     for keyword in additional_keywords:
@@ -68,9 +68,12 @@ for word in search_words:
 
                 # 크롤링
                 i = 0
-                print(links)
                 for link in links:
                     i += 1
+                    if (i == 50):
+                        NewsCrawler = DongaNews(host="http://221.142.15.180:9200", authId="elastic", authPw="elastic")
+
+                        i = 0
                     print(link)
                     print(NewsCrawler.crawl(link, "news", ["section.news_view", "section.head_group > h1", "meta"],
                                             ["mainBody", "title", "date"]))
