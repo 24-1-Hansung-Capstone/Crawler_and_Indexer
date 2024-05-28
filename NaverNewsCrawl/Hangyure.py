@@ -46,9 +46,8 @@ for word in search_words:
             try:
                 #request
                 request = urllib.request.Request(url)
-
-                #response 받기
-                response = urllib.request.urlopen(request)
+                # Response 받기 (타임아웃 3분 설정)
+                response = urllib.request.urlopen(request, timeout=180)
                 rescode = response.getcode()
                 links = []
 
