@@ -25,51 +25,64 @@ NewsCrawler = HangyureNews(host="http://221.142.15.180:9200", authId ="elastic",
 with open("../searchWords2.txt", "r", encoding='UTF-8') as file:
     search_words = file.readlines()
 
+# 추가할 단어 목록
+additional_keywords = ["부동산", "전세", "월세", "매매", "임대"]
+
 # 검색어별로 처리
 for word in search_words:
-    #검색어 지정
-    urls = []
-    print(word)
-    now = datetime.now()
-    date = now.strftime("%Y.%m.%d")
-    encText = urllib.parse.quote(word.strip())  # 단어 좌우의 공백 제거 후 인코딩
-    for i in range(1,4):
-        url = "https://search.hani.co.kr/search/newslist?searchword=%EA%B0%95%EB%82%A8%EC%97%AD&startdate=1988.01.01&enddate="+date+"&page=" + encText + "&startdate=1988.01.01&enddate=2024.04.08&page=" + str(i) + "&sort=desc" # JSON 결과
-        urls.append(url)
+    word = word.strip()  # 단어 좌우의 공백 제거
+    for keyword in additional_keywords:
+        search_term = f"{word} {keyword}"  # 단어와 추가 키워드 결합
+        encText = urllib.parse.quote(search_term)  # 인코딩
+        urls = []
+        print(f"검색어: {search_term}")
+        now = datetime.now()
+        date = now.strftime("%Y.%m.%d")
+        for i in range(1,4):
+            url = "https://search.hani.co.kr/search/newslist?searchword="+encText+"&startdate=1988.01.01&enddate="+date+"&page="+str(i)+"&sort=desc" # JSON 결과
+            urls.append(url)
 
-    for url in urls:
-        #request
-        request = urllib.request.Request(url)
+        for url in urls:
+            try:
+                #request
+                request = urllib.request.Request(url)
 
-        #response 받기
-        response = urllib.request.urlopen(request)
-        rescode = response.getcode()
-        links = []
+                #response 받기
+                response = urllib.request.urlopen(request)
+                rescode = response.getcode()
+                links = []
 
-        #결과 파싱
-        if(rescode == 200):
-            response_body = response.read()
-            soup = BeautifulSoup(response_body, 'html.parser')
-            header_tags = soup.find_all('article')
-            for header_tag in header_tags:
-                a_tags = header_tag.find_all('a', class_='flex-inner')
-                for a_tag in a_tags:
-                    href = a_tag.get('href')
-                    if "https://www.hani.co.kr/" in href:
-                        links.append(href)
+                #결과 파싱
+                if(rescode == 200):
+                    response_body = response.read()
+                    soup = BeautifulSoup(response_body, 'html.parser')
+                    header_tags = soup.find_all('article')
+                    for header_tag in header_tags:
+                        a_tags = header_tag.find_all('a', class_='flex-inner')
+                        for a_tag in a_tags:
+                            href = a_tag.get('href')
+                            if "https://www.hani.co.kr/" in href:
+                                links.append(href)
 
-        else:
-            print("Error Code:" + rescode)
-            exit(rescode)
+                else:
+                    print("Error Code:" + rescode)
+                    exit(rescode)
 
-        #크롤링
-        i = 0
-        print(links)
-        for link in links:
-            i += 1
-            print(link)
-            result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__9kRU_", "li.ArticleDetailView_dateListItem__mRc3d > span"],
-                                         ["mainBody", "title", "date"]) #h3.ArticleDetailView_title__i0jb9을 만나면 끊김
-            if result is None:
-                continue
-            print(result)
+                #크롤링
+                i = 0
+                print(links)
+                for link in links:
+                    i += 1
+                    if (i == 50):
+                        NewsCrawler = HangyureNews(host="http://221.142.15.180:9200", authId="elastic", authPw="elastic")
+
+                        i = 0
+                    print(link)
+                    result = NewsCrawler.crawl(link, "news", ["div.article-text > p.text", "h3.ArticleDetailView_title__9kRU_", "li.ArticleDetailView_dateListItem__mRc3d > span"],
+                                                 ["mainBody", "title", "date"]) #h3.ArticleDetailView_title__i0jb9을 만나면 끊김
+                    if result is None:
+                        continue
+                    print(result)
+
+            except Exception as e:
+                print(f"Error processing {url}: {e}")

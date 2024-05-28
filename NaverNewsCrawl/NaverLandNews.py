@@ -23,8 +23,8 @@ NewsCrawler = NaverLandNews(host="http://221.142.15.180:9200", authId ="elastic"
 driver = webdriver.Chrome()
 # #검색어 지정
 urls = []
-for i in range(1, 10):
-    url = "https://land.naver.com/news/headline.naver?bss_ymd=20240509&page=" + str(i)  # JSON 결과
+for i in range(1, 5):
+    url = "https://land.naver.com/news/headline.naver?bss_ymd=20240528&page=" + str(i)  # JSON 결과
     urls.append(url)
 # 웹 페이지 열기
 for url in urls:
