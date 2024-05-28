@@ -1,0 +1,46 @@
+{
+    "properties": {
+        "aroundDesc": {
+            "type": "text",
+            "analyzer": "korean_analyzer"
+        },
+        "aroundScore": {
+            "type": "float"
+        },
+        "careDesc": {
+            "type": "text",
+            "analyzer": "korean_analyzer"
+        },
+        "careScore": {
+            "type": "float"
+        },
+        "danji_id": {
+            "type": "integer"
+        },
+        "danji_name": {
+            "type": "text",
+            "analyzer": "korean_analyzer"
+        },
+        "residentDesc": {
+            "type": "text",
+            "analyzer": "korean_analyzer"
+        },
+        "residentScore": {
+            "type": "float"
+        },
+        "totalDesc": {
+            "type": "text",
+            "analyzer": "korean_analyzer"
+        },
+        "totalScore": {
+            "type": "float"
+        },
+        "trafficDesc": {
+            "type": "text",
+            "analyzer": "korean_analyzer"
+        },
+        "trafficScore": {
+            "type": "float"
+        }
+    }
+}
