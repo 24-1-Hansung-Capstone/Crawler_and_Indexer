@@ -72,7 +72,7 @@ for word in search_words:
                 print(links)
                 for link in links:
                     i += 1
-                    if (i == 50):
+                    if (i == 40):
                         NewsCrawler = HangyureNews(host="http://221.142.15.180:9200", authId="elastic", authPw="elastic")
 
                         i = 0

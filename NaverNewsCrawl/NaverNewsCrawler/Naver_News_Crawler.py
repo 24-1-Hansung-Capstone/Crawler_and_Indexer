@@ -1,3 +1,5 @@
+import time
+
 from CrawlerInterface import CrawlingInterface
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -11,7 +13,7 @@ class NaverNewsCrawler(CrawlingInterface):
 
     def select(self, url : str, tags: list):
         self.driver.get(url)
-        self.driver.implicitly_wait(11)
+        time.sleep(4)
 
         texts = []
 
