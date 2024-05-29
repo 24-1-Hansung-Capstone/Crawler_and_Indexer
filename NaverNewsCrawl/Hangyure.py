@@ -22,7 +22,7 @@ class HangyureNews(NaverNewsCrawler):
 NewsCrawler = HangyureNews(host="http://221.142.15.180:9200", authId ="elastic", authPw="elastic")
 
 # 검색어 파일 읽기
-with open("../searchWords2.txt", "r", encoding='UTF-8') as file:
+with open("../hangyure.txt", "r", encoding='UTF-8') as file:
     search_words = file.readlines()
 
 # 추가할 단어 목록
